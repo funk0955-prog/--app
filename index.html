@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>MyBoard（手機優化版）</title>
+  <title>MyBoard（手機修復版）</title>
   <style>
     :root{
       --bg:#f3f4f6;
@@ -15,19 +15,16 @@
       --danger:#dc2626;
       --shadow: 0 10px 25px rgba(0,0,0,.08);
       --radius:14px;
-
-      /* ✅ 讓 board-wrap 的 top 依 topbar 實際高度 */
       --topbar-h: 56px;
     }
     *{box-sizing:border-box}
     html,body{height:100%; margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC","PingFang TC","Heiti TC",Arial,sans-serif; color:var(--ink);}
     body{background:var(--bg); overflow:hidden;}
 
-    /* ✅ Topbar：手機不換行 + 可左右滑動 + safe area */
+    /* ✅ Topbar：不換行 + 可左右滑動 + safe area */
     .topbar{
       position:fixed; left:0; right:0; top:0;
-      min-height:56px;
-      height:auto;
+      min-height:56px; height:auto;
       display:flex; align-items:center; gap:10px;
       padding: calc(env(safe-area-inset-top, 0px) + 8px) 12px 8px;
       background:rgba(243,244,246,.92); backdrop-filter: blur(10px);
@@ -44,7 +41,7 @@
 
     .btn{
       height:38px; padding:0 12px; border:1px solid var(--line); border-radius:10px;
-      background:var(--card); color:var(--ink); cursor:pointer; font-weight:700;
+      background:var(--card); color:var(--ink); cursor:pointer; font-weight:800;
       display:inline-flex; align-items:center; gap:8px;
       user-select:none;
     }
@@ -55,16 +52,15 @@
     .pill{
       height:38px; padding:0 12px; border-radius:999px; border:1px solid var(--line);
       background:var(--card); display:flex; align-items:center; gap:10px;
-      color:var(--muted); font-weight:800;
+      color:var(--muted); font-weight:900;
     }
-    .hint{font-size:12px; color:var(--muted); font-weight:700;}
+    .hint{font-size:12px; color:var(--muted); font-weight:800;}
     .spacer{flex:1}
 
-    /* ✅ board-wrap：top 用變數，不再寫死 56px */
+    /* ✅ board-wrap：top 用變數 */
     .board-wrap{
       position:fixed; left:0; right:0; top:var(--topbar-h); bottom:0;
       overflow:hidden;
-      /* iOS 滑動更順 */
       -webkit-overflow-scrolling: touch;
     }
 
@@ -77,12 +73,10 @@
       touch-action:none;
     }
 
-    /* SVG links layer */
     svg#linksLayer{
       position:absolute; inset:0; pointer-events:none;
     }
 
-    /* Cards */
     .card{
       position:absolute;
       width:260px;
@@ -118,10 +112,7 @@
       min-width: 0;
     }
 
-    .card .tools{
-      display:flex; gap:6px; align-items:center;
-    }
-
+    .tools{display:flex; gap:6px; align-items:center;}
     .iconbtn{
       width:30px; height:30px; border-radius:9px;
       border:1px solid var(--line); background:white;
@@ -146,16 +137,31 @@
       background:#fff;
     }
 
+    .imgbox{
+      margin-top:10px;
+      border:1px dashed var(--line);
+      border-radius:12px;
+      padding:10px;
+      display:flex; flex-direction:column; gap:8px;
+      background:#fff;
+    }
+    .imgbox img{
+      max-width:100%;
+      border-radius:10px;
+      border:1px solid var(--line);
+    }
+    .small{font-size:12px; color:var(--muted); font-weight:900;}
+    .img-actions{display:flex; gap:8px; align-items:center;}
+    .file{display:none;}
+
     .todo{
       margin-top:10px;
       border-top:1px solid var(--line);
       padding-top:10px;
     }
-
     .todo-row{
       display:flex; gap:8px; align-items:center; margin:6px 0;
     }
-
     .todo-row input[type="text"]{
       flex:1;
       border:1px solid var(--line);
@@ -165,9 +171,7 @@
       font-size:13px;
       min-width:0;
     }
-
     .todo-list{display:flex; flex-direction:column; gap:8px; margin-top:10px;}
-
     .todo-item{
       display:flex; gap:10px; align-items:flex-start;
       padding:8px 10px;
@@ -191,23 +195,6 @@
       user-select:none;
     }
 
-    .imgbox{
-      margin-top:10px;
-      border:1px dashed var(--line);
-      border-radius:12px;
-      padding:10px;
-      display:flex; flex-direction:column; gap:8px;
-      background:#fff;
-    }
-    .imgbox img{
-      max-width:100%;
-      border-radius:10px;
-      border:1px solid var(--line);
-    }
-    .img-actions{display:flex; gap:8px; align-items:center;}
-    .small{font-size:12px; color:var(--muted); font-weight:800;}
-    .file{display:none;}
-
     .status{
       position:fixed; left:12px; bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
       padding:10px 12px; border-radius:12px;
@@ -216,12 +203,12 @@
       box-shadow:var(--shadow);
       z-index:20;
       font-size:12px; color:var(--muted); font-weight:900;
+      transition:opacity .2s ease;
     }
 
-    /* ✅ 手機：縮短按鈕、隱藏提示 pill，避免太擠 */
     @media (max-width: 480px){
       .pill{ display:none; }
-      .btn{ height:36px; padding:0 10px; font-weight:800; }
+      .btn{ height:36px; padding:0 10px; }
       .iconbtn{ width:32px; height:32px; }
     }
   </style>
@@ -260,16 +247,22 @@
   <div class="status" id="status">已自動儲存</div>
 
   <script>
-    // ====== Data model ======
-    // data = { zoom:1, pan:{x,y}, cards:[{id,x,y,w,title,note,todos:[{id,done,text}], imageDataUrl?}], links:[{from,to}] }
+    // ======================
+    // ✅ 修復重點：
+    // 1) iOS 鍵盤/Enter 會觸發 resize → 不再在 resize 裡 render()（避免新增待辦消失）
+    // 2) save 改成防抖，減少 localStorage 頻繁寫入導致卡頓
+    // 3) textarea/todo 內容用 .value/.textContent 綁定，避免 innerHTML 在 Safari 亂跳
+    // ======================
 
-    const LS_KEY = "myboard_v1"; // ✅ 不改這個，資料就不會消失
+    const LS_KEY = "myboard_v1"; // ✅ 不改這個，你原本資料就會保留
+
     const boardEl = document.getElementById("board");
     const wrapEl = document.getElementById("wrap");
     const linksSvg = document.getElementById("linksLayer");
     const statusEl = document.getElementById("status");
     const modeHintEl = document.getElementById("modeHint");
     const linkModeBtn = document.getElementById("linkMode");
+    const topbarEl = document.querySelector(".topbar");
 
     let data = load() || {
       zoom: 1,
@@ -282,59 +275,84 @@
     let linkFrom = null;
     let selectedCardId = null;
 
-    // ✅ 讓 board-wrap 的 top 跟著 topbar 實際高度（手機不會遮住畫面）
-    const topbarEl = document.querySelector(".topbar");
+    // ---------- UI helpers ----------
+    function toast(msg){
+      statusEl.textContent = msg;
+      statusEl.style.opacity = "1";
+      clearTimeout(toast._t);
+      toast._t = setTimeout(()=> statusEl.style.opacity = "0.85", 900);
+    }
+
     function syncTopbarHeight(){
-      const h = topbarEl.offsetHeight;
+      const h = topbarEl.offsetHeight || 56;
       document.documentElement.style.setProperty("--topbar-h", h + "px");
     }
 
-    // ====== Utilities ======
-    const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(2, 6);
-
-    function save() {
-      localStorage.setItem(LS_KEY, JSON.stringify(data));
-      toast("已自動儲存");
+    function uid(){
+      return Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(2, 6);
     }
 
-    function load() {
-      try {
+    // ---------- Storage (debounced) ----------
+    function _saveNow(){
+      try{
+        localStorage.setItem(LS_KEY, JSON.stringify(data));
+        toast("已自動儲存");
+      }catch(e){
+        // Safari 可能因容量或隱私模式寫入失敗
+        toast("⚠️ 儲存失敗（請先匯出備份）");
+        console.warn(e);
+      }
+    }
+    function save(){
+      clearTimeout(save._t);
+      save._t = setTimeout(_saveNow, 250); // ✅ 防抖，不卡
+    }
+
+    function load(){
+      try{
         const raw = localStorage.getItem(LS_KEY);
-        if (!raw) return null;
+        if(!raw) return null;
         return JSON.parse(raw);
-      } catch {
+      }catch{
         return null;
       }
     }
 
-    let toastT = null;
-    function toast(msg) {
-      statusEl.textContent = msg;
-      statusEl.style.opacity = "1";
-      clearTimeout(toastT);
-      toastT = setTimeout(() => statusEl.style.opacity = "0.85", 900);
-    }
-
-    function setTransform() {
+    // ---------- Board transform ----------
+    function setTransform(){
       boardEl.style.transform = `translate(${data.pan.x}px, ${data.pan.y}px) scale(${data.zoom})`;
       drawLinks();
     }
 
-    function getCardCenter(card) {
-      return { cx: card.x + (card.w || 260)/2, cy: card.y + 60 }; // roughly header+body
-    }
-
     function findCard(id){ return data.cards.find(c => c.id === id); }
 
-    // ====== Rendering ======
-    function clearDOMCards() {
+    function getCardCenter(card){
+      return { cx: card.x + (card.w || 260)/2, cy: card.y + 60 };
+    }
+
+    // ---------- DOM render ----------
+    function clearDOMCards(){
       [...boardEl.querySelectorAll(".card")].forEach(el => el.remove());
     }
 
-    function render() {
+    async function fileToDataUrl(file){
+      return new Promise((res, rej) => {
+        const r = new FileReader();
+        r.onload = () => res(r.result);
+        r.onerror = rej;
+        r.readAsDataURL(file);
+      });
+    }
+
+    function autoGrow(ta){
+      ta.style.height = "auto";
+      ta.style.height = Math.min(180, ta.scrollHeight) + "px";
+    }
+
+    function render(){
       clearDOMCards();
 
-      // keep SVG full size
+      // resize svg to wrap
       const rect = wrapEl.getBoundingClientRect();
       linksSvg.setAttribute("width", rect.width);
       linksSvg.setAttribute("height", rect.height);
@@ -347,20 +365,21 @@
         el.style.top = card.y + "px";
         el.style.width = (card.w || 260) + "px";
 
+        // 先建立骨架（不把文字塞進 innerHTML）
         el.innerHTML = `
           <div class="header">
-            <input class="title" value="${escapeHtml(card.title || "未命名")}" />
+            <input class="title" />
             <div class="tools">
               <button class="iconbtn" title="貼圖片">🖼</button>
               <button class="iconbtn" title="刪除">✕</button>
             </div>
           </div>
           <div class="body">
-            <textarea class="note" placeholder="筆記...">${escapeHtml(card.note || "")}</textarea>
+            <textarea class="note" placeholder="筆記..."></textarea>
 
-            <div class="imgbox" style="${card.imageDataUrl ? "" : "display:none"}">
+            <div class="imgbox" style="display:none">
               <div class="small">圖片</div>
-              <img src="${card.imageDataUrl || ""}" />
+              <img />
               <div class="img-actions">
                 <button class="btn" data-act="removeImg" style="height:34px">移除圖片</button>
               </div>
@@ -369,7 +388,7 @@
             <div class="todo">
               <div class="small">代辦</div>
               <div class="todo-row">
-                <input type="text" placeholder="輸入代辦後按 Enter" class="newTodo" />
+                <input type="text" class="newTodo" placeholder="輸入代辦後按 Enter" />
                 <button class="btn" data-act="addTodo" style="height:34px">新增</button>
               </div>
               <div class="todo-list"></div>
@@ -377,10 +396,9 @@
           </div>
           <input class="file imgfile" type="file" accept="image/*" />
         `;
-
         boardEl.appendChild(el);
 
-        // Selection + link mode click
+        // selection + link click
         el.addEventListener("pointerdown", (e) => {
           if (["INPUT","TEXTAREA","BUTTON"].includes(e.target.tagName)) return;
           selectCard(card.id);
@@ -392,24 +410,33 @@
           handleLinkClick(card.id);
         });
 
-        // title/note binding
+        // bind title/note
         const titleInput = el.querySelector(".title");
+        titleInput.value = card.title || "未命名";
         titleInput.addEventListener("input", () => {
           card.title = titleInput.value;
           save();
         });
 
         const noteTa = el.querySelector(".note");
+        noteTa.value = card.note || "";
         noteTa.addEventListener("input", () => {
           card.note = noteTa.value;
           save();
         });
 
-        // tools: image + delete
+        // image
         const toolBtns = el.querySelectorAll(".iconbtn");
         const imgBtn = toolBtns[0];
         const delBtn = toolBtns[1];
         const imgFile = el.querySelector(".imgfile");
+        const imgBox = el.querySelector(".imgbox");
+        const imgEl = imgBox.querySelector("img");
+
+        if (card.imageDataUrl){
+          imgBox.style.display = "";
+          imgEl.src = card.imageDataUrl;
+        }
 
         imgBtn.addEventListener("click", () => imgFile.click());
         imgFile.addEventListener("change", async () => {
@@ -418,7 +445,17 @@
           const url = await fileToDataUrl(f);
           card.imageDataUrl = url;
           save();
-          render();
+          // 不整頁 render，只更新這張卡的圖片區塊（更順）
+          imgBox.style.display = "";
+          imgEl.src = url;
+          drawLinks();
+        });
+
+        el.querySelector('[data-act="removeImg"]').addEventListener("click", () => {
+          delete card.imageDataUrl;
+          imgBox.style.display = "none";
+          imgEl.removeAttribute("src");
+          save();
           drawLinks();
         });
 
@@ -433,54 +470,67 @@
           drawLinks();
         });
 
-        // remove img
-        const removeImgBtn = el.querySelector('[data-act="removeImg"]');
-        if (removeImgBtn) {
-          removeImgBtn.addEventListener("click", () => {
-            delete card.imageDataUrl;
-            save();
-            render();
-            drawLinks();
+        // todos (render list)
+        const list = el.querySelector(".todo-list");
+        function renderTodos(){
+          list.innerHTML = "";
+          (card.todos || []).forEach(t => {
+            const item = document.createElement("div");
+            item.className = "todo-item";
+
+            const cb = document.createElement("input");
+            cb.type = "checkbox";
+            cb.checked = !!t.done;
+
+            const txt = document.createElement("textarea");
+            txt.className = "txt";
+            txt.rows = 1;
+            txt.value = t.text || "";
+
+            const x = document.createElement("button");
+            x.className = "x";
+            x.textContent = "✕";
+            x.title = "刪除";
+
+            cb.addEventListener("change", () => { t.done = cb.checked; save(); });
+            txt.addEventListener("input", () => { t.text = txt.value; save(); autoGrow(txt); });
+            x.addEventListener("click", () => {
+              card.todos = (card.todos || []).filter(tt => tt.id !== t.id);
+              save();
+              renderTodos();
+            });
+
+            item.appendChild(cb);
+            item.appendChild(txt);
+            item.appendChild(x);
+
+            list.appendChild(item);
+            autoGrow(txt);
           });
         }
-
-        // todos
-        const list = el.querySelector(".todo-list");
-        list.innerHTML = "";
-        (card.todos || []).forEach(t => {
-          const item = document.createElement("div");
-          item.className = "todo-item";
-          item.innerHTML = `
-            <input type="checkbox" ${t.done ? "checked":""}/>
-            <textarea class="txt" rows="1">${escapeHtml(t.text || "")}</textarea>
-            <button class="x" title="刪除">✕</button>
-          `;
-          const cb = item.querySelector("input[type=checkbox]");
-          const txt = item.querySelector(".txt");
-          const x = item.querySelector(".x");
-          cb.addEventListener("change", () => { t.done = cb.checked; save(); });
-          txt.addEventListener("input", () => { t.text = txt.value; save(); autoGrow(txt); });
-          x.addEventListener("click", () => {
-            card.todos = (card.todos || []).filter(tt => tt.id !== t.id);
-            save(); render(); drawLinks();
-          });
-          list.appendChild(item);
-          autoGrow(txt);
-        });
+        renderTodos();
 
         const newTodo = el.querySelector(".newTodo");
         const addTodoBtn = el.querySelector('[data-act="addTodo"]');
+
         const addTodo = () => {
           const v = (newTodo.value || "").trim();
           if (!v) return;
           card.todos = card.todos || [];
           card.todos.push({ id: uid(), done:false, text:v });
           newTodo.value = "";
-          save(); render(); drawLinks();
+          save();
+          renderTodos();
         };
+
         addTodoBtn.addEventListener("click", addTodo);
-        newTodo.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") { e.preventDefault(); addTodo(); }
+
+        // ✅ iOS Enter 修復：用 keyup 比 keydown 穩；避免鍵盤觸發 resize 造成中斷
+        newTodo.addEventListener("keyup", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            addTodo();
+          }
         });
 
         // drag via header
@@ -488,7 +538,6 @@
         makeDraggable(el, header, card);
       });
 
-      // re-apply selection highlight
       if (selectedCardId) {
         const sel = boardEl.querySelector(`.card[data-id="${CSS.escape(selectedCardId)}"]`);
         if (sel) sel.classList.add("selected");
@@ -499,28 +548,8 @@
       drawLinks();
     }
 
-    function escapeHtml(str){
-      return (str ?? "")
-        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;").replaceAll("'","&#039;");
-    }
-
-    function autoGrow(ta){
-      ta.style.height = "auto";
-      ta.style.height = Math.min(180, ta.scrollHeight) + "px";
-    }
-
-    function fileToDataUrl(file){
-      return new Promise((res, rej) => {
-        const r = new FileReader();
-        r.onload = () => res(r.result);
-        r.onerror = rej;
-        r.readAsDataURL(file);
-      });
-    }
-
-    // ====== Draggable ======
-    function makeDraggable(cardEl, handleEl, card) {
+    // ---------- Drag ----------
+    function makeDraggable(cardEl, handleEl, card){
       let dragging = false;
       let startX=0, startY=0, origX=0, origY=0;
 
@@ -555,7 +584,7 @@
       });
     }
 
-    // ====== Links ======
+    // ---------- Links ----------
     function handleLinkClick(cardId){
       selectCard(cardId);
       if (!linkFrom) {
@@ -578,7 +607,7 @@
     }
 
     function drawLinks(){
-      [...linksSvg.querySelectorAll("line,path")].forEach(n => n.remove());
+      [...linksSvg.querySelectorAll("path")].forEach(n => n.remove());
 
       const toScreen = (pt) => ({
         x: (pt.x * data.zoom) + data.pan.x,
@@ -610,7 +639,7 @@
       });
     }
 
-    // ====== Selection ======
+    // ---------- Selection ----------
     function selectCard(id){
       selectedCardId = id;
       [...boardEl.querySelectorAll(".card")].forEach(el => el.classList.remove("selected"));
@@ -618,7 +647,7 @@
       if (el) el.classList.add("selected");
     }
 
-    // ====== Board pan/zoom ======
+    // ---------- Pan / Zoom ----------
     let panning = false, panStart={x:0,y:0}, panOrig={x:0,y:0};
 
     boardEl.addEventListener("pointerdown", (e) => {
@@ -649,10 +678,7 @@
       pointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
       if (pointers.size === 2) {
         const pts = [...pointers.values()];
-        pinchStart = {
-          dist: distance(pts[0], pts[1]),
-          zoom: data.zoom
-        };
+        pinchStart = { dist: dist(pts[0], pts[1]), zoom: data.zoom };
       }
     }, {passive:true});
 
@@ -661,7 +687,7 @@
       pointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
       if (pointers.size === 2 && pinchStart) {
         const pts = [...pointers.values()];
-        const d = distance(pts[0], pts[1]);
+        const d = dist(pts[0], pts[1]);
         let z = pinchStart.zoom * (d / pinchStart.dist);
         z = Math.max(0.5, Math.min(1.8, z));
         data.zoom = z;
@@ -675,23 +701,17 @@
       save();
     }, {passive:true});
 
-    function distance(a,b){
+    function dist(a,b){
       const dx=a.x-b.x, dy=a.y-b.y;
       return Math.sqrt(dx*dx+dy*dy);
     }
 
-    // ====== Buttons ======
+    // ---------- Buttons ----------
     document.getElementById("addCard").addEventListener("click", () => {
       const id = uid();
       const x = (-data.pan.x)/data.zoom + 40;
       const y = (-data.pan.y)/data.zoom + 40;
-      data.cards.push({
-        id, x, y,
-        w: 260,
-        title: "今日最該做",
-        note: "",
-        todos: []
-      });
+      data.cards.push({ id, x, y, w: 260, title: "今日最該做", note: "", todos: [] });
       save();
       render();
       selectCard(id);
@@ -756,9 +776,22 @@
       }
     });
 
-    // ====== Boot ======
+    // ---------- Boot ----------
     syncTopbarHeight();
-    window.addEventListener("resize", () => { syncTopbarHeight(); render(); drawLinks(); });
+
+    // ✅ 重要：resize 只做「高度/尺寸同步」，不 render（避免 iOS 鍵盤觸發整頁重繪）
+    let resizeT = null;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(() => {
+        syncTopbarHeight();
+        // 只更新 svg 尺寸 + 重畫線
+        const rect = wrapEl.getBoundingClientRect();
+        linksSvg.setAttribute("width", rect.width);
+        linksSvg.setAttribute("height", rect.height);
+        drawLinks();
+      }, 120);
+    });
 
     if (data.cards.length === 0) {
       data.cards.push(
@@ -770,6 +803,7 @@
       );
       save();
     }
+
     render();
   </script>
 </body>
